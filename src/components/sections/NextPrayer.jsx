@@ -1,14 +1,14 @@
 import { useNextPrayer } from "@contexts/NextPrayerContext";
 import { usePrayerTimes } from "@contexts/PrayerTimesContext";
 import { useSearchContext } from "@contexts/SearchContext";
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { faLocationDot, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function NextPrayer() {
 
     const { isLoading, date } = usePrayerTimes();
     const { nextPrayer, timeRemaianig } = useNextPrayer();
-    const { selectedCountry, selectedCity } = useSearchContext();
+    const { isCountriesLoading, isCitiesLoading, selectedCountry, selectedCity } = useSearchContext();
 
     return (
         <section className="next-prayer-section bg-linear-to-b from-primary to-primary-light text-white rounded-b-4xl py-5 md:py-7" id="nextPrayer">
@@ -18,7 +18,7 @@ function NextPrayer() {
                     {/* Heading */}
                     <div className="next-prayer-heading w-fit rounded-full py-2 px-4 bg-primary-dark text-secondary font-semibold">
                         الصلاة القادمة: <span>{
-                            isLoading ? (
+                            (isCountriesLoading || isCitiesLoading || isLoading) ? (
                                 <>جاري تحميل البيانات</>
                             ) : (
                                 nextPrayer?.name
@@ -28,7 +28,7 @@ function NextPrayer() {
                     {/* Prayer Time */}
                     <div className="prayer-time font-bold text-3xl sm:text-5xl my-3 md:my-5">
                         {
-                            isLoading ? (
+                            (isCountriesLoading || isCitiesLoading || isLoading) ? (
                                 <>00:00</>
                             ) : (
                                 nextPrayer?.time
@@ -37,11 +37,14 @@ function NextPrayer() {
                     </div>
                     {/* Location Info */}
                     <div className="location-info flex items-center gap-2 text-background">
-                        <FontAwesomeIcon icon={faLocationDot} />
+                        <FontAwesomeIcon
+                            icon={(isCountriesLoading || isCitiesLoading || isLoading) ? faSpinner : faLocationDot}
+                            className={`${(isCountriesLoading || isCitiesLoading || isLoading) ? "animate-spin" : ""}`}
+                        />
                         <p>
                             {
-                                isLoading ? (
-                                    <>جاري تحميل البيانات</>
+                                (isCountriesLoading || isCitiesLoading || isLoading) ? (
+                                    <>جاري تحميل البيانات...</>
                                 ) : (
                                     <>{selectedCountry?.nativeName}, {selectedCity}</>
                                 )
@@ -52,7 +55,7 @@ function NextPrayer() {
                 {/* Remaining Time */}
                 <div className="remaining-time p-3 md:p-5 rounded-2xl bg-linear-to-b from-primary-light to-transparent md:min-w-75 h-41.5 md:h-52">
                     <h3 className="text-secondary! font-semibold mb-3">الوقت المتبقي للأقامة</h3>
-                    <div className="time-display font-bold text-lg sm:text-2xl md:text-3xl lg:text-4xl">{timeRemaianig}</div>
+                    <div className="time-display font-bold text-lg sm:text-2xl md:text-3xl lg:text-4xl">{timeRemaianig || "00:00:00"}</div>
                     {/* Date Info */}
                     <div className="date-info mt-3 md:mt-5">
                         <h4 className="hijri-date text-white! font-semibold text-lg sm:text-xl md:text-2xl mb-1.5 md:mb-3">
@@ -63,7 +66,7 @@ function NextPrayer() {
                                         {date?.hijri?.month?.ar}
                                         {date?.hijri?.year}
                                     </>
-                                ) : isLoading ? (
+                                ) : (isCountriesLoading || isCitiesLoading || isLoading) ? (
                                     <>جاري تحميل البيانات...</>
                                 ) : (
                                     <>لا توجد بيانات متاحة حالياً</>
@@ -76,7 +79,7 @@ function NextPrayer() {
                                     new Date(date?.readable).toLocaleDateString("ar", {
                                         dateStyle: "full"
                                     })
-                                ) : isLoading ? (
+                                ) : (isCountriesLoading || isCitiesLoading || isLoading) ? (
                                     <>جاري تحميل البيانات...</>
                                 ) : (
                                     <>لا توجد بيانات متاحة حالياً</>

@@ -30,6 +30,8 @@ export const NextPrayerContextProvider = ({ children }) => {
 
             if (prayerTime > currentTime) {
                 return t;
+            } else {
+                return times[0]
             }
         });
         setNextPrayer(nextPrayer);
