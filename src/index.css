@@ -8,7 +8,18 @@
 }
 
 @theme {
-  /* Colors Here */
+  /* Primary */
+  --color-primary: #174e3b;
+  --color-primary-dark: #0b3527;
+  --color-primary-light: #30604f;
+  --color-primary-muted: #414944;
+  /* Secondary */
+  --color-secondary: #d0ae27;
+  --color-secondary-dark: #715c00;
+  --color-secondary-muted: #5c532d;
+  /* Colors */
+  --color-grey: #f2f4f6;
+  --color-background: #f7f9fb;
 }
 
 /* Global */
