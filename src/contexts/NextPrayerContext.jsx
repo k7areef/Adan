@@ -17,7 +17,8 @@ export const NextPrayerContextProvider = ({ children }) => {
 
     const { isLoading, times } = usePrayerTimes();
 
-    const [next, setNext] = React.useState(null);
+    const [nextPrayer, setNextPrayer] = React.useState(null);
+    const [timeRemaianig, setTimeRemaining] = React.useState();
 
     React.useEffect(() => {
         if (isLoading || !times || times?.length === 0) return;
@@ -32,11 +33,47 @@ export const NextPrayerContextProvider = ({ children }) => {
             }
         });
 
-        setNext(nextPrayer);
+        setNextPrayer(nextPrayer);
     }, [isLoading, times]);
 
+    React.useEffect(() => {
+        if (!nextPrayer?.time) return;
+        const calculateTime = () => {
+            const now = new Date();
+
+            const [hours, minutes] = nextPrayer.time.split(':').map(Number);
+            const target = new Date();
+            target.setHours(hours, minutes, 0, 0);
+
+            if (target < now) {
+                target.setDate(target.getDate() + 1);
+            }
+
+            const diff = target - now;
+
+            if (diff <= 0) {
+                setTimeRemaining("00:00:00");
+                return;
+            }
+
+            const h = Math.floor(diff / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+            const format = (num) => String(num).padStart(2, '0');
+            setTimeRemaining(`${format(h)}:${format(m)}:${format(s)}`);
+        };
+
+        calculateTime();
+
+        const timer = setInterval(calculateTime, 1000);
+
+        return () => clearInterval(timer);
+    }, [nextPrayer]);
+
     const value = {
-        next
+        nextPrayer,
+        timeRemaianig
     };
 
     return (
