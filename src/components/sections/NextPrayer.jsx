@@ -28,7 +28,7 @@ function NextPrayer() {
                     </div>
                 </div>
                 {/* Remaining Time */}
-                <div className="remaining-time p-3 md:p-5 rounded-2xl bg-primary-dark border-2 border-primary md:min-w-75">
+                <div className="remaining-time p-3 md:p-5 rounded-2xl bg-linear-to-b from-primary-light to-transparent md:min-w-75">
                     <h3 className="text-secondary! font-semibold mb-3">الوقت المتبقي للأقامة</h3>
                     <div className="time-display font-bold text-lg sm:text-2xl md:text-3xl lg:text-4xl">{timeRemaianig}</div>
                     {/* Date Info */}
