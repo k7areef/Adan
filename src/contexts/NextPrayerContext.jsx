@@ -20,7 +20,7 @@ export const NextPrayerContextProvider = ({ children }) => {
     const [nextPrayer, setNextPrayer] = React.useState(null);
     const [timeRemaianig, setTimeRemaining] = React.useState();
 
-    React.useEffect(() => {
+    const findNextPrayer = React.useCallback(() => { // Find Next Prayer:
         if (isLoading || !times || times?.length === 0) return;
 
         const nextPrayer = times.find(t => {
@@ -32,11 +32,14 @@ export const NextPrayerContextProvider = ({ children }) => {
                 return t;
             }
         });
-
         setNextPrayer(nextPrayer);
     }, [isLoading, times]);
 
-    React.useEffect(() => {
+    React.useEffect(() => { // Find Next Prayer After Mount:
+        findNextPrayer();
+    }, [findNextPrayer]);
+
+    React.useEffect(() => { // Update Remaining Time:
         if (!nextPrayer?.time) return;
         const calculateTime = () => {
             const now = new Date();
@@ -53,6 +56,8 @@ export const NextPrayerContextProvider = ({ children }) => {
 
             if (diff <= 0) {
                 setTimeRemaining("00:00:00");
+                // Find Next Prayer From New:
+                findNextPrayer();
                 return;
             }
 
@@ -69,7 +74,7 @@ export const NextPrayerContextProvider = ({ children }) => {
         const timer = setInterval(calculateTime, 1000);
 
         return () => clearInterval(timer);
-    }, [nextPrayer]);
+    }, [findNextPrayer, nextPrayer]);
 
     const value = {
         nextPrayer,
