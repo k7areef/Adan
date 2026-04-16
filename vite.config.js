@@ -6,6 +6,15 @@ import { fileURLToPath } from 'url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://www.apicountries.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
+  },
   plugins: [
     react({
       babel: {

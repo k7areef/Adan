@@ -23,6 +23,12 @@
 }
 
 /* Global */
+/* Custom Scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-secondary) var(--color-primary);
+}
+
 html,
 body {
   font-family: "Cairo", sans-serif;
@@ -30,6 +36,7 @@ body {
   font-style: normal;
   font-variation-settings:
     "slnt" 0;
+
 }
 
 h1,
