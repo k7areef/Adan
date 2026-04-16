@@ -17,7 +17,7 @@ function PrayerCards() {
                     {
                         (isCountriesLoading || isCitiesLoading || isLoading) ? (
                             Array.from({ length: 6 }).map((_, index) => (<div className="prayer-card-skeleton bg-primary/30 animate-pulse p-3 md:p-5 rounded-xl h-39.5 md:h-43.5 last-of-type:lg:col-span-3 last-of-type:xl:col-span-5 last-of-type:2xl:col-span-1" key={index}>
-                                10
+                                جاري التحميل
                             </div>))
                         ) : (
                             times.map((prayer, index) => {

@@ -11,21 +11,10 @@ export const PrayerTimesContextProvider = ({ children }) => {
     const { isCountriesLoading, isCitiesLoading, selectedCountry, selectedCity } = useSearchContext();
 
     const { isLoading, error, data } = useQuery({
-        queryKey: [`prayer_times`],
+        queryKey: [`prayer_times`, selectedCountry?.alpha3Code, selectedCity,],
         queryFn: async () => {
             try {
-
-                let API = "https://api.aladhan.com/v1";
-
-                // Search Request:
-                if (selectedCountry && selectedCity) {
-                    API += `/timingsByCity/16-04-2026?country=${selectedCountry?.alpha3Code}&city=${selectedCity}`
-                } else {
-                    // Default Request:
-                    API += `/timings/16-04-2026?latitude=30.0434&longitude=31.2352`;
-                }
-
-                // Start Request:
+                const API = `https://api.aladhan.com/v1/timingsByCity/16-04-2026?country=${selectedCountry?.alpha3Code || "EGY"}&city=${selectedCity || "cairo"}`;
                 const res = await fetch(API);
                 const resData = await res.json();
                 return resData.data;
