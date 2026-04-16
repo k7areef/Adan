@@ -6,10 +6,7 @@ const PrayerTimesContext = React.createContext();
 
 export const PrayerTimesContextProvider = ({ children }) => {
 
-    const [selectedCountry, setSelectedCountry] = React.useState(null);
-
     const [times, setTimes] = React.useState([]);
-    const search = null;
 
     const { isLoading, error, data } = useQuery({
         queryKey: [`prayer_times`],
@@ -18,13 +15,15 @@ export const PrayerTimesContextProvider = ({ children }) => {
 
                 let API = "https://api.aladhan.com/v1";
 
-                // Search Request:
-                if (search) {
-                    API += `/timingsByCity/16-04-2026?city=${search}&country=EGY`
-                } else {
-                    // Default Request:
-                    API += `/timings/16-04-2026?latitude=30.0434&longitude=31.2352`;
-                }
+                // // Search Request:
+                // if (selectedCountry && selectedCity) {
+                //     API += `/timingsByCity/16-04-2026?country=${selectedCountry.alpha3Code}&city=${selectedCity}`
+                // } else {
+                //     // Default Request:
+                //     API += `/timings/16-04-2026?latitude=30.0434&longitude=31.2352`;
+                // }
+
+                API += `/timings/16-04-2026?latitude=30.0434&longitude=31.2352`;
 
                 // Start Request:
                 const res = await fetch(API);
@@ -98,9 +97,6 @@ export const PrayerTimesContextProvider = ({ children }) => {
         timings: data?.timings || [],
         times: times,
         date: data?.date || null,
-        // Actions:
-        selectedCountry,
-        setSelectedCountry
     };
 
     return (

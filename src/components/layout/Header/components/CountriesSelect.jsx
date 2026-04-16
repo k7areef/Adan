@@ -1,7 +1,6 @@
-import { usePrayerTimes } from "@contexts/PrayerTimesContext";
+import { useSearchContext } from "@contexts/SearchContext";
 import { faAngleDown, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useQuery } from "@tanstack/react-query";
 import React from "react";
 
 const CountryFlag = ({ src, alt }) => {
@@ -10,23 +9,7 @@ const CountryFlag = ({ src, alt }) => {
 
 function CountriesSelect() {
 
-    const { selectedCountry, setSelectedCountry } = usePrayerTimes();
-
-    const { isLoading, data: countries } = useQuery({
-        queryKey: ['countries'],
-        queryFn: async () => {
-            try {
-                const res = await fetch(`/api/countries`);
-                const countries = await res.json();
-                setSelectedCountry(countries[0])
-                return countries;
-            } catch (err) {
-                console.log(err);
-            }
-        },
-        enabled: true,
-        refetchOnWindowFocus: false
-    });
+    const { isCountriesLoading, countries, selectedCountry, setSelectedCountry } = useSearchContext();
 
     const [isOpen, setIsOpen] = React.useState(false);
     const [searchTerm, setSearchTerm] = React.useState("");
@@ -58,14 +41,14 @@ function CountriesSelect() {
             {/* Select Input */}
             <div className="input-group relative h-full">
                 <label htmlFor="countySearch" className="absolute left-3 top-1/2 -translate-y-1/2">
-                    <FontAwesomeIcon icon={isLoading ? faSpinner : faAngleDown} className={`transition-transform will-change-transform ${isLoading ? "animate-spin" : isOpen ? "rotate-180" : ""}`} />
+                    <FontAwesomeIcon icon={isCountriesLoading ? faSpinner : faAngleDown} className={`transition-transform will-change-transform ${isCountriesLoading ? "animate-spin" : isOpen ? "rotate-180" : ""}`} />
                 </label>
                 <input
                     type="text"
                     id="countySearch"
                     autoComplete="off"
                     name="countySearch"
-                    disabled={isLoading}
+                    disabled={isCountriesLoading}
                     onFocus={() => setIsOpen(true)}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     value={isOpen ? searchTerm : (selectedCountry ? selectedCountry.nativeName : "")}
@@ -83,7 +66,7 @@ function CountriesSelect() {
             <div className={`select-options-wrapper transition will-change-auto ${isOpen ? "opacity-100 translate-y-0" : "translate-y-2 opacity-0 pointer-events-none"} max-sm:max-w-70 h-100 absolute right-0 min-w-full mt-3 z-10 rounded-md border-2 border-secondary overflow-hidden`}>
                 <div className="select-options h-full overflow-y-auto space-y-1 bg-primary-light p-2">
                     {
-                        isLoading ? (
+                        isCountriesLoading ? (
                             <>جاري التحميل</>
                         ) : filteredCountries?.length === 0 ? (
                             <>لا يوجد بيانات متطابقة لكلمات البحث</>

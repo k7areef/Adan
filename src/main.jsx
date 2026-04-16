@@ -5,11 +5,14 @@ import App from './App.jsx'
 
 // React Router DOM:
 import { BrowserRouter } from 'react-router-dom'
-import { PrayerTimesContextProvider } from '@contexts/PrayerTimesContext'
 
 // Tanstac:
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+// Context Providers:
+import { PrayerTimesContextProvider } from '@contexts/PrayerTimesContext'
 import { NextPrayerContextProvider } from '@contexts/NextPrayerContext'
+import { SearchContextProvider } from '@contexts/SearchContext'
 
 // Create a client
 const queryClient = new QueryClient()
@@ -20,7 +23,9 @@ createRoot(document.getElementById('root')).render(
       <QueryClientProvider client={queryClient}>
         <PrayerTimesContextProvider>
           <NextPrayerContextProvider>
-            <App />
+            <SearchContextProvider>
+              <App />
+            </SearchContextProvider>
           </NextPrayerContextProvider>
         </PrayerTimesContextProvider>
       </QueryClientProvider>

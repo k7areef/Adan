@@ -1,40 +1,14 @@
 import React from "react";
 import { faAngleDown, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useQuery } from "@tanstack/react-query";
-import { usePrayerTimes } from "@contexts/PrayerTimesContext";
+import { useSearchContext } from "@contexts/SearchContext";
 
 function CitiesSelect() {
 
-    const { selectedCountry } = usePrayerTimes();
+    const { isCountriesLoading, isCitiesLoading, selectedCountry, selectedCity, setSelectedCity, countyCities } = useSearchContext();
 
-    const { isLoading, data: countriesCities } = useQuery({
-        queryKey: [`countries_cities_${selectedCountry?.name}`, selectedCountry?.name],
-        queryFn: async () => {
-            try {
-                const res = await fetch(`https://countriesnow.space/api/v0.1/countries/cities`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        country: selectedCountry?.name
-                    })
-                });
-                const resData = await res.json();
-                const cities = resData.data
-                setSelectedCity(cities[0])
-                return cities;
-            } catch (err) {
-                console.log(err);
-            }
-        },
-        enabled: !!(selectedCountry?.name),
-        refetchOnWindowFocus: false
-    });
 
     const [isOpen, setIsOpen] = React.useState(false);
-    const [selectedCity, setSelectedCity] = React.useState(null);
     const [searchTerm, setSearchTerm] = React.useState("");
     const selectRef = React.useRef(null);
 
@@ -54,7 +28,7 @@ function CitiesSelect() {
         setSelectedCity(city);
     };
 
-    const filteredCities = countriesCities?.filter(city =>
+    const filteredCities = countyCities?.filter(city =>
         city.toLowerCase().includes(searchTerm.toLowerCase()) ||
         city?.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -64,7 +38,7 @@ function CitiesSelect() {
             {/* Select Input */}
             <div className="input-group relative h-full">
                 <label htmlFor="citySearch" className="absolute left-3 top-1/2 -translate-y-1/2">
-                    <FontAwesomeIcon icon={isLoading ? faSpinner : faAngleDown} className={`transition-transform will-change-transform ${isLoading ? "animate-spin" : isOpen ? "rotate-180" : ""}`} />
+                    <FontAwesomeIcon icon={(isCitiesLoading || isCountriesLoading) ? faSpinner : faAngleDown} className={`transition-transform will-change-transform ${(isCitiesLoading || isCountriesLoading) ? "animate-spin" : isOpen ? "rotate-180" : ""}`} />
                 </label>
                 <input
                     type="text"
@@ -72,7 +46,7 @@ function CitiesSelect() {
                     name="citySearch"
                     autoComplete="off"
                     onFocus={() => setIsOpen(true)}
-                    disabled={isLoading || !selectedCountry}
+                    disabled={(isCitiesLoading || isCountriesLoading) || !selectedCountry}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     title={!selectedCountry ? "يرجي أختيار البلد" : ""}
                     value={isOpen ? searchTerm : (selectedCity ? selectedCity : "")}
@@ -84,7 +58,7 @@ function CitiesSelect() {
             <div className={`select-options-wrapper transition will-change-auto ${isOpen ? "opacity-100 translate-y-0" : "translate-y-2 opacity-0 pointer-events-none"} max-sm:max-w-70 h-100 absolute right-0 min-w-full mt-3 z-10 rounded-md border-2 border-secondary overflow-hidden`}>
                 <div className="select-options h-full overflow-y-auto space-y-1 bg-primary-light p-2">
                     {
-                        isLoading ? (
+                        (isCitiesLoading || isCountriesLoading) ? (
                             <>جاري التحميل</>
                         ) : filteredCities?.length === 0 ? (
                             <>لا يوجد بيانات متطابقة لكلمات البحث</>
