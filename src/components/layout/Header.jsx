@@ -1,8 +1,8 @@
 function Header() {
     return (
-        <header>
+        <header className="bg-primary text-white py-5 border-b border-b-primary-light">
             <div className="container">
-                Header
+                الرأس
             </div>
         </header>
     )

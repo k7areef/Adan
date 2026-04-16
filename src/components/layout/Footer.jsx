@@ -2,7 +2,7 @@ function Footer() {
     return (
         <footer>
             <div className="container">
-                Footer
+                الزيل
             </div>
         </footer>
     )
