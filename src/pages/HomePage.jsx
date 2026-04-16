@@ -5,12 +5,14 @@ import PrayerCards from "@components/sections/PrayerCards";
 function HomePage() {
     return (
         <div className="home-page">
-            {/* Next Prayer */}
-            <NextPrayer />
-            {/* Prayer Cards */}
-            <PrayerCards />
-            {/* Daily Azkar */}
-            <DailyAzkar />
+            <main>
+                {/* Next Prayer */}
+                <NextPrayer />
+                {/* Prayer Cards */}
+                <PrayerCards />
+                {/* Daily Azkar */}
+                <DailyAzkar />
+            </main>
         </div>
     )
 }

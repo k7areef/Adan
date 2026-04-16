@@ -14,21 +14,41 @@ function NextPrayer() {
                 {/* Next Prayer Info */}
                 <div className="next-prayer-info">
                     {/* Heading */}
-                    <div className="next-prayer-heading w-fit rounded-full py-2 px-4 bg-primary-light text-secondary font-semibold">
-                        الصلاة القادمة: <span>{nextPrayer?.name}</span>
+                    <div className="next-prayer-heading w-fit rounded-full py-2 px-4 bg-primary-dark text-secondary font-semibold">
+                        الصلاة القادمة: <span>{
+                            isLoading ? (
+                                <>جاري تحميل البيانات</>
+                            ) : (
+                                nextPrayer?.name
+                            )
+                        }</span>
                     </div>
                     {/* Prayer Time */}
                     <div className="prayer-time font-bold text-3xl sm:text-5xl my-3 md:my-5">
-                        {nextPrayer?.time}
+                        {
+                            isLoading ? (
+                                <>00:00</>
+                            ) : (
+                                nextPrayer?.time
+                            )
+                        }
                     </div>
                     {/* Location Info */}
-                    <div className="location-info flex itmce gap-2 text-background">
+                    <div className="location-info flex items-center gap-2 text-background">
                         <FontAwesomeIcon icon={faLocationDot} />
-                        <p>الرياض, الممكلة العربية السعودية</p>
+                        <p>
+                            {
+                                isLoading ? (
+                                    <>جاري تحميل البيانات</>
+                                ) : (
+                                    <>الرياض, الممكلة العربية السعودية</>
+                                )
+                            }
+                        </p>
                     </div>
                 </div>
                 {/* Remaining Time */}
-                <div className="remaining-time p-3 md:p-5 rounded-2xl bg-linear-to-b from-primary-light to-transparent md:min-w-75">
+                <div className="remaining-time p-3 md:p-5 rounded-2xl bg-linear-to-b from-primary-light to-transparent md:min-w-75 h-41.5 md:h-52">
                     <h3 className="text-secondary! font-semibold mb-3">الوقت المتبقي للأقامة</h3>
                     <div className="time-display font-bold text-lg sm:text-2xl md:text-3xl lg:text-4xl">{timeRemaianig}</div>
                     {/* Date Info */}

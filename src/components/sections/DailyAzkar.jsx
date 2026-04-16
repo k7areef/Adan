@@ -1,4 +1,3 @@
-import BackgroundImage from '@assets/images/daily-azkar-bg.png';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
@@ -7,9 +6,15 @@ function DailyAzkar() {
     return (
         <section className="daily-azkar-section py-5 md:py-7" id="dailyAzkar">
             <div className="container">
-                <div className="content-wrapper rounded-4xl h-100 bg-red-500 overflow-hidden relative">
+                <div className="content-wrapper rounded-4xl h-100 bg-primary-dark overflow-hidden relative">
                     {/* Background Image */}
-                    <img src={BackgroundImage} alt="Background Image" className='w-full h-full object-cover' />
+                    <img
+                        loading='lazy'
+                        fetchPriority='high'
+                        alt="Background Image"
+                        src={"/daily-azkar-bg.png"}
+                        className='w-full h-full object-cover'
+                    />
                     {/* Content */}
                     <div className="content-container absolute left-0 top-0 w-full h-full p-5 md:p-10 bg-white/60 flex flex-col justify-end">
                         <h2 className='font-bold text-2xl md:text-3xl xl:text-5xl mb-5'>أذكار الصباح</h2>
