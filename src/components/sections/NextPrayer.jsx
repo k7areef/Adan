@@ -1,5 +1,6 @@
 import { useNextPrayer } from "@contexts/NextPrayerContext";
 import { usePrayerTimes } from "@contexts/PrayerTimesContext";
+import { useSearchContext } from "@contexts/SearchContext";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -7,6 +8,7 @@ function NextPrayer() {
 
     const { isLoading, date } = usePrayerTimes();
     const { nextPrayer, timeRemaianig } = useNextPrayer();
+    const { selectedCountry, selectedCity } = useSearchContext();
 
     return (
         <section className="next-prayer-section bg-linear-to-b from-primary to-primary-light text-white rounded-b-4xl py-5 md:py-7" id="nextPrayer">
@@ -41,7 +43,7 @@ function NextPrayer() {
                                 isLoading ? (
                                     <>جاري تحميل البيانات</>
                                 ) : (
-                                    <>الرياض, الممكلة العربية السعودية</>
+                                    <>{selectedCountry?.nativeName}, {selectedCity}</>
                                 )
                             }
                         </p>

@@ -21,13 +21,13 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <PrayerTimesContextProvider>
-          <NextPrayerContextProvider>
-            <SearchContextProvider>
+        <SearchContextProvider>
+          <PrayerTimesContextProvider>
+            <NextPrayerContextProvider>
               <App />
-            </SearchContextProvider>
-          </NextPrayerContextProvider>
-        </PrayerTimesContextProvider>
+            </NextPrayerContextProvider>
+          </PrayerTimesContextProvider>
+        </SearchContextProvider>
       </QueryClientProvider>
     </BrowserRouter>
   </StrictMode>,

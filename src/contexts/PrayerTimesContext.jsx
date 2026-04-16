@@ -1,12 +1,14 @@
 import React from "react";
 import { faCloudMoon, faCloudSun, faMoon, faMountainSun, faSun } from "@fortawesome/free-solid-svg-icons";
 import { useQuery } from "@tanstack/react-query";
+import { useSearchContext } from "./SearchContext";
 
 const PrayerTimesContext = React.createContext();
 
 export const PrayerTimesContextProvider = ({ children }) => {
 
     const [times, setTimes] = React.useState([]);
+    const { isCountriesLoading, isCitiesLoading, selectedCountry, selectedCity } = useSearchContext();
 
     const { isLoading, error, data } = useQuery({
         queryKey: [`prayer_times`],
@@ -15,15 +17,13 @@ export const PrayerTimesContextProvider = ({ children }) => {
 
                 let API = "https://api.aladhan.com/v1";
 
-                // // Search Request:
-                // if (selectedCountry && selectedCity) {
-                //     API += `/timingsByCity/16-04-2026?country=${selectedCountry.alpha3Code}&city=${selectedCity}`
-                // } else {
-                //     // Default Request:
-                //     API += `/timings/16-04-2026?latitude=30.0434&longitude=31.2352`;
-                // }
-
-                API += `/timings/16-04-2026?latitude=30.0434&longitude=31.2352`;
+                // Search Request:
+                if (selectedCountry && selectedCity) {
+                    API += `/timingsByCity/16-04-2026?country=${selectedCountry?.alpha3Code}&city=${selectedCity}`
+                } else {
+                    // Default Request:
+                    API += `/timings/16-04-2026?latitude=30.0434&longitude=31.2352`;
+                }
 
                 // Start Request:
                 const res = await fetch(API);
@@ -33,7 +33,7 @@ export const PrayerTimesContextProvider = ({ children }) => {
                 console.log(err);
             }
         },
-        enabled: true,
+        enabled: Boolean(!(isCountriesLoading || isCitiesLoading)),
         refetchOnWindowFocus: false
     });
 
