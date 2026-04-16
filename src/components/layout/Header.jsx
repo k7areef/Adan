@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Header() {
     return (
-        <header className="bg-primary text-white py-5 border-b border-b-primary-light">
+        <header className="bg-primary text-white py-5 border-b border-b-primary-light sticky top-0 z-10">
             <div className="container flex items-center justify-between">
                 {/* Search */}
                 <form className="relative">
