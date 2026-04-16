@@ -14,6 +14,7 @@ function CountriesSelect() {
     const [isOpen, setIsOpen] = React.useState(false);
     const [searchTerm, setSearchTerm] = React.useState("");
     const selectRef = React.useRef(null);
+    const optionsContainerRef = React.useRef(null);
 
     React.useEffect(() => {
         const handleClickOutSide = (e) => {
@@ -64,21 +65,28 @@ function CountriesSelect() {
             </div>
             {/* Select Options */}
             <div className={`select-options-wrapper transition will-change-auto ${isOpen ? "opacity-100 translate-y-0" : "translate-y-2 opacity-0 pointer-events-none"} max-sm:max-w-70 h-100 absolute right-0 min-w-full mt-3 z-10 rounded-md border-2 border-secondary overflow-hidden`}>
-                <div className="select-options h-full overflow-y-auto space-y-1 bg-primary-light p-2">
+                <div
+                    ref={optionsContainerRef}
+                    className="select-options h-full overflow-y-auto overscroll-contain space-y-1 bg-primary-light p-2 scroll-pt-2">
                     {
                         isCountriesLoading ? (
                             <>جاري التحميل</>
                         ) : filteredCountries?.length === 0 ? (
                             <>لا يوجد بيانات متطابقة لكلمات البحث</>
                         ) : filteredCountries?.length > 0 ? (
-                            filteredCountries?.map((country, index) => (<button
-                                key={index}
-                                onClick={() => handleSelect(country)}
-                                className={`select-option-btn text-nowrap flex items-center gap-3 p-2 ${selectedCountry?.alpha3Code === country.alpha3Code ? "bg-primary-dark" : "bg-primary sm:hover:bg-primary-dark"} w-full rounded-sm transition-colors`}
-                            >
-                                <CountryFlag src={country.flags.svg} alt={country.nativeName} />
-                                <span className="truncate text-right w-full">{country.nativeName}</span>
-                            </button>))
+                            filteredCountries?.map(country => {
+                                const isActive = selectedCountry?.alpha3Code === country.alpha3Code;
+                                return (
+                                    <button
+                                        key={country.alpha3Code}
+                                        onClick={() => handleSelect(country)}
+                                        className={`select-option-btn text-nowrap flex items-center gap-3 p-2 ${isActive ? "bg-primary-dark" : "bg-primary sm:hover:bg-primary-dark"} w-full rounded-sm transition-colors`}
+                                    >
+                                        <CountryFlag src={country.flags.svg} alt={country.nativeName} />
+                                        <span className="truncate text-right w-full">{country.nativeName}</span>
+                                    </button>
+                                )
+                            })
                         ) : (
                             <>لا توجد بيانات متاحه حالياً</>
                         )
