@@ -1,61 +1,10 @@
 import React from "react";
 import { usePrayerTimes } from "@contexts/PrayerTimesContext";
-import { faCloudMoon, faCloudSun, faMoon, faMountainSun, faSun } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function PrayerCards() {
 
-    const { isLoading, timings } = usePrayerTimes();
-
-    const PRAYER_TIMES = React.useMemo(() => {
-
-        if (isLoading || !timings || timings?.length === 0) return [];
-
-        const targetTimes = [
-            {
-                id: "Fajr",
-                name: "الفجر",
-                icon: faCloudMoon
-            },
-            {
-                id: "Sunrise",
-                name: "الشروق",
-                icon: faSun
-            },
-            {
-                id: "Dhuhr",
-                name: "الظهر",
-                icon: faSun
-            },
-            {
-                id: "Asr",
-                name: "العصر",
-                icon: faCloudSun
-            },
-            {
-                id: "Maghrib",
-                name: "المغرب",
-                icon: faMountainSun
-            },
-            {
-                id: "Isha",
-                name: "العشاء",
-                icon: faMoon
-            }
-        ];
-
-        return targetTimes.map(pt => {
-
-            const time = timings[pt.id];
-            const period = Number(String(time).split(":")[0]) > 12 ? "PM" : "AM";
-
-            return {
-                ...pt,
-                time,
-                period
-            }
-        });
-    }, [isLoading, timings]);
+    const { isLoading, times } = usePrayerTimes();
 
     return (
         <section className="prayer-cards-section py-5 md:py-10" id="prayerCards">
@@ -67,7 +16,7 @@ function PrayerCards() {
                                 10
                             </div>))
                         ) : (
-                            PRAYER_TIMES.map((prayer, index) => (<div className="prayer-card last-of-type:lg:col-span-3 last-of-type:xl:col-span-5 last-of-type:2xl:col-span-1 bg-white shadow p-3 md:p-5 rounded-xl relative" key={index}>
+                            times.map((prayer, index) => (<div className="prayer-card last-of-type:lg:col-span-3 last-of-type:xl:col-span-5 last-of-type:2xl:col-span-1 bg-white shadow p-3 md:p-5 rounded-xl relative" key={index}>
                                 {/* Period */}
                                 <div className="period font-bold capitalize absolute left-3 top-3 text-primary-muted text-sm">{prayer.period}</div>
                                 {/* Icon */}
