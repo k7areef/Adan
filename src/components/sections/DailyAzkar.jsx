@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 function DailyAzkar() {
     return (
-        <section className="daily-azkar-section py-5 md:py-10" id="dailyAzkar">
+        <section className="daily-azkar-section py-5 md:py-7" id="dailyAzkar">
             <div className="container">
                 <div className="content-wrapper rounded-4xl h-100 bg-red-500 overflow-hidden relative">
                     {/* Background Image */}

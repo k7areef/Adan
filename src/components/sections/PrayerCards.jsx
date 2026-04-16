@@ -9,7 +9,7 @@ function PrayerCards() {
     const { nextPrayer } = useNextPrayer();
 
     return (
-        <section className="prayer-cards-section py-5 md:py-10" id="prayerCards">
+        <section className="prayer-cards-section py-5 md:py-7" id="prayerCards">
             <div className="container">
                 <div className="prayer-cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3 md:gap-5">
                     {
@@ -23,7 +23,7 @@ function PrayerCards() {
                                 const isActive = nextPrayer?.id === prayer.id;
 
                                 return (
-                                    <div className={`prayer-card ${isActive ? "bg-primary" : "bg-white"} transition-colors last-of-type:lg:col-span-3 last-of-type:xl:col-span-5 last-of-type:2xl:col-span-1 shadow p-3 md:p-5 rounded-xl relative`} key={index}>
+                                    <div className={`prayer-card ${isActive ? "bg-primary border-primary-light" : "bg-white border-secondary"} border-2 transition-colors last-of-type:lg:col-span-3 last-of-type:xl:col-span-5 last-of-type:2xl:col-span-1 shadow p-3 md:p-5 rounded-xl relative`} key={index}>
                                         {/* Period */}
                                         <div className={`period font-bold ${isActive ? "text-white" : "text-primary-muted"} transition-colors capitalize absolute left-3 top-3 text-sm`}>{prayer.period}</div>
                                         {/* Icon */}
