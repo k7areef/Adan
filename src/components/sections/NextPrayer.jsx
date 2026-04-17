@@ -41,7 +41,7 @@ function NextPrayer() {
                             icon={(isCountriesLoading || isCitiesLoading || isLoading) ? faSpinner : faLocationDot}
                             className={`${(isCountriesLoading || isCitiesLoading || isLoading) ? "animate-spin" : ""}`}
                         />
-                        <p>
+                        <p dir="ltr">
                             {
                                 (isCountriesLoading || isCitiesLoading || isLoading) ? (
                                     <>جاري تحميل البيانات...</>

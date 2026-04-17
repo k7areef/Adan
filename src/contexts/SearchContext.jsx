@@ -14,7 +14,11 @@ export const SearchContextProvider = ({ children }) => {
         queryFn: async () => {
             const res = await fetch(`/api/countries`);
             const data = await res.json();
-            if (!selectedCountry) setSelectedCountry(data[0]);
+
+            // Get select default country:
+            let defaultSelectedCountry = data?.find(c => String(c.alpha3Code).toLowerCase() === "egy");
+
+            if (!selectedCountry) setSelectedCountry(defaultSelectedCountry);
             return data;
         }
     });
