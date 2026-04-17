@@ -18,6 +18,7 @@ export const NextPrayerContextProvider = ({ children }) => {
     const { isLoading, times } = usePrayerTimes();
 
     const [nextPrayer, setNextPrayer] = React.useState(null);
+
     const [timeRemaianig, setTimeRemaining] = React.useState();
 
     const findNextPrayer = React.useCallback(() => {
@@ -29,33 +30,36 @@ export const NextPrayerContextProvider = ({ children }) => {
 
         if (!next) {
             next = times[0];
+            console.log(next);
         }
 
         setNextPrayer(next);
     }, [isLoading, times]);
 
     React.useEffect(() => { // Find Next Prayer After Mount:
+        if (isLoading || !times || times.length === 0) return;
         findNextPrayer();
-    }, [findNextPrayer]);
+    }, [findNextPrayer, isLoading, times]);
 
-    React.useEffect(() => { // Update Remaining Time:
+    React.useEffect(() => {
         if (!nextPrayer?.time) return;
+
+        const [hours, minutes] = nextPrayer.time.split(':').map(Number);
+        const target = new Date();
+        target.setHours(hours, minutes, 0, 0);
+
+        const nowAtStart = new Date();
+        if (target < nowAtStart) {
+            target.setDate(target.getDate() + 1);
+        }
+
         const calculateTime = () => {
             const now = new Date();
-
-            const [hours, minutes] = nextPrayer.time.split(':').map(Number);
-            const target = new Date();
-            target.setHours(hours, minutes, 0, 0);
-
-            if (target < now) {
-                target.setDate(target.getDate() + 1);
-            }
-
             const diff = target - now;
 
             if (diff <= 0) {
+                console.log("Ended");
                 setTimeRemaining("00:00:00");
-                // Find Next Prayer From New:
                 findNextPrayer();
                 return;
             }
@@ -69,7 +73,6 @@ export const NextPrayerContextProvider = ({ children }) => {
         };
 
         calculateTime();
-
         const timer = setInterval(calculateTime, 1000);
 
         return () => clearInterval(timer);
