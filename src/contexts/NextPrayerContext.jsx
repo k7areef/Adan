@@ -30,7 +30,6 @@ export const NextPrayerContextProvider = ({ children }) => {
 
         if (!next) {
             next = times[0];
-            console.log(next);
         }
 
         setNextPrayer(next);
