@@ -6,7 +6,7 @@ function AppLogo() {
     return (
         <Link
             to={'/'}
-            className="text-2xl font-semibold uppercase flex items-center gap-2"
+            className="text-2xl font-semibold uppercase flex items-center gap-2 max-sm:ms-auto"
         >
             <span>Adan</span>
             <FontAwesomeIcon icon={faMosque} className="text-secondary" />

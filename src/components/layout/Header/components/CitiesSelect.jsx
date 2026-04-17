@@ -34,7 +34,7 @@ function CitiesSelect() {
     );
 
     return (
-        <div className="cities-select w-50 relative" ref={selectRef}>
+        <div className="cities-select w-50 relative max-sm:flex-1" ref={selectRef}>
             {/* Select Input */}
             <div className="input-group relative h-full">
                 <label htmlFor="citySearch" className="absolute left-3 top-1/2 -translate-y-1/2">

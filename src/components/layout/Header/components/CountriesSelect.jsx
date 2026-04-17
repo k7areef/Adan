@@ -38,7 +38,7 @@ function CountriesSelect() {
     );
 
     return (
-        <div className="countries-select w-50 relative" ref={selectRef}>
+        <div className="countries-select w-50 relative max-sm:w-full max-sm:order-1" ref={selectRef}>
             {/* Select Input */}
             <div className="input-group relative h-full">
                 <label htmlFor="countySearch" className="absolute left-3 top-1/2 -translate-y-1/2">
