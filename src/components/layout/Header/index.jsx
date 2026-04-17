@@ -1,6 +1,7 @@
 import AppLogo from "@components/common/AppLogo";
 import CountriesSelect from "./components/CountriesSelect";
 import CitiesSelect from "./components/CitiesSelect";
+import GetAccessLocation from "./components/GetAccessLocation";
 
 function Header() {
     return (
@@ -12,6 +13,8 @@ function Header() {
                     <CountriesSelect />
                     {/* Select City */}
                     <CitiesSelect />
+                    {/* Location */}
+                    <GetAccessLocation />
                 </div>
                 {/* App Logo */}
                 <AppLogo />

@@ -5,6 +5,7 @@ const SearchContext = React.createContext();
 
 export const SearchContextProvider = ({ children }) => {
 
+    const [userLocation, setUserLocation] = React.useState(null);
     const [selectedCountry, setSelectedCountry] = React.useState(null);
     const [selectedCity, setSelectedCity] = React.useState(null);
 
@@ -33,6 +34,31 @@ export const SearchContextProvider = ({ children }) => {
         enabled: !!selectedCountry?.name,
     });
 
+    React.useEffect(() => {
+        if (!userLocation || !countries || countries.length === 0) return;
+
+        let closestCountry = null;
+        let minDistance = Infinity;
+
+        countries.forEach(country => {
+            if (!country.latlng) return;
+
+            const dLat = country.latlng[0] - userLocation.lat;
+            const dLng = country.latlng[1] - userLocation.lng;
+
+            const distance = Math.sqrt(dLat * dLat + dLng * dLng);
+
+            if (distance < minDistance) {
+                minDistance = distance;
+                closestCountry = country;
+            }
+        });
+
+        if (closestCountry) {
+            setSelectedCountry(closestCountry);
+        }
+    }, [countries, userLocation]);
+
     const value = {
         // Loading States:
         isCountriesLoading,
@@ -42,7 +68,8 @@ export const SearchContextProvider = ({ children }) => {
         countyCities: cities,
         // States:
         selectedCountry, setSelectedCountry,
-        selectedCity, setSelectedCity
+        selectedCity, setSelectedCity,
+        setUserLocation
     };
 
     return (
