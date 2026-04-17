@@ -20,21 +20,18 @@ export const NextPrayerContextProvider = ({ children }) => {
     const [nextPrayer, setNextPrayer] = React.useState(null);
     const [timeRemaianig, setTimeRemaining] = React.useState();
 
-    const findNextPrayer = React.useCallback(() => { // Find Next Prayer:
-        if (isLoading || !times || times?.length === 0) return;
+    const findNextPrayer = React.useCallback(() => {
+        if (isLoading || !times || times.length === 0) return;
 
-        const nextPrayer = times.find(t => {
+        const currentTime = getCurrentMinutes();
 
-            const prayerTime = timeToMinutes(t.time);
-            const currentTime = getCurrentMinutes();
+        let next = times.find(t => timeToMinutes(t.time) > currentTime);
 
-            if (prayerTime > currentTime) {
-                return t;
-            } else {
-                return times[0]
-            }
-        });
-        setNextPrayer(nextPrayer);
+        if (!next) {
+            next = times[0];
+        }
+
+        setNextPrayer(next);
     }, [isLoading, times]);
 
     React.useEffect(() => { // Find Next Prayer After Mount:
